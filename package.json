@@ -1,0 +1,26 @@
+{
+  "name": "newssaver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EINNNA/newssaver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EINNNA/newssaver/issues"
+  },
+  "homepage": "https://github.com/EINNNA/newssaver#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express-handlebars": "^3.1.0",
+    "morgan": "^1.9.1"
+  }
+}
