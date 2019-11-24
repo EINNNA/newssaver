@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 //var exhb = require("express-handlebars");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var db = require("./models");
 
 var PORT = 3000;
 var app = express();
@@ -23,30 +24,55 @@ mongoose.connect("mongodb://localhost/newssaver", { useNewUrlParser: true });
 //});
 
 app.get("/scrape", function (req, res) {
-    axios.get("https://old.reddit.com/r/Cooking/").then(function (response) {
+    axios.get("https://www.nationalgeographic.com.au/news/animals.aspx").then(function (response) {
         var $ = cheerio.load(response.data);
-        $("div._1poyrkZ7g36PawDueRza-J _11R7M_VOgKO1RJyRSRErT3").each(function (i, element) {
+        $("div.Container").each(function (i, element, link) {
             var result = {};
 
-            result.title = $(this)
-                .children("div")
-                .hasClass("y8HYJ-y_lTUHkQIc1mdCq _2INHSNB8V5eaWp4P0rY_mE");
-            result.body = $(this)
-                .children("div")
-                .hasClass("_292iotee39Lmt0MkQZ2hPV RichTextJSON-root");
+            result.title = $(this).children("div.Padding").children("a").text();
+            result.body = $(this).children("div.Padding").children("p.Description").text();
+            result.link = $(this).children("div.Padding").children("a").attr("href");
 
-            db.Post.create(result)
-                .then(function (dbPost) {
-                    console.log(dbPost);
-                })
-                .catch(function (err) {
+            db.Article.create(result)
+                .then(function (dbArticle) {
+                    console.log(dbArticle);
+                }).catch(function (err) {
                     console.log(err);
                 });
         });
         res.send("Scrape Complete");
+        console.log(response.data);
     });
 });
 
+app.get("/articles/", function(req, res){
+    db.Article.find({}).then( function(dbArticle){
+        res.json(dbArticle);
+    }).catch(function(err){
+        res.json(err);
+    })
+});
+
+app.get("/articles/:id", function (req, res) {
+    db.Article.findOne({ _id: req.params.id })
+        .populate("note")
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        }).catch(function (err) {
+            res.json(err);
+        });
+});
+
+app.post("/articles/:id", function (req, res) {
+    db.Note.create(req.body)
+        .then(function (dbNote) {
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+        }).then(function (dbArticle) {
+            res.json(dbArticle);
+        }).catch(function (err) {
+            res.json(err);
+        });
+});
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });

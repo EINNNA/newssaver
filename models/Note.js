@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var NoteSchema = new Schema({
     name: {
         type: String,
-        maxlength: 200, "Its a note, not your autobiography!"
+        maxlength: 200
     },
     articles: [
         {
