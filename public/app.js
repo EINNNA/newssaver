@@ -4,6 +4,14 @@ $.getJSON("/articles", function (data) {
     }
 });
 
+$(document).ready(function() {
+  $.ajax({
+    method: "DELETE",
+    url: "/saved/"
+  }).then(function(dbSaved){
+    res.json(dbSaved);
+  });
+});
   
   $(document).on("click", "p", function() {
     $(".notes").empty();

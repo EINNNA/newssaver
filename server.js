@@ -73,6 +73,27 @@ app.post("/articles/:id", function (req, res) {
             res.json(err);
         });
 });
+
+app.get("/articles/:id", function(req, res){
+    db.Article.findOne({ _id: req.params.id })
+        .populate("saved")
+        .then(function(dbSaved) {
+        res.json(dbSaved);
+    });
+});
+
+app.post("/saved/:id", function(req, res){
+    db.Saved.create({ _id: req.params.id }).then(function(dbSaved) {
+        res.json(dbSaved);
+    });
+});
+
+app.delete("/saved/", function(req, res){
+    db.Saved.remove({}).then(function(dbSaved) {
+        res.json(dbSaved);
+    });
+});
+
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
