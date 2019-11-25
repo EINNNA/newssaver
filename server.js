@@ -74,11 +74,19 @@ app.post("/articles/:id", function (req, res) {
         });
 });
 
-app.get("/articles/:id", function(req, res){
+/*app.get("/articles/:id", function(req, res){
     db.Article.findOne({ _id: req.params.id })
         .populate("saved")
         .then(function(dbSaved) {
         res.json(dbSaved);
+    });
+});*/
+
+app.get("/saved/", function(req, res){
+    db.Saved.find({}).then( function(dbSaved){
+        res.json(dbSaved);
+    }).catch(function(err){
+        res.json(err);
     });
 });
 
@@ -88,7 +96,7 @@ app.post("/saved/:id", function(req, res){
     });
 });
 
-app.delete("/saved/", function(req, res){
+app.delete("/saved/delete/", function(req, res){
     db.Saved.remove({}).then(function(dbSaved) {
         res.json(dbSaved);
     });

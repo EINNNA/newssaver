@@ -7,11 +7,18 @@ $.getJSON("/articles", function (data) {
 $(document).ready(function() {
   $.ajax({
     method: "DELETE",
-    url: "/saved/"
+    url: "/saved/delete/"
   }).then(function(dbSaved){
     res.json(dbSaved);
   });
 });
+
+$(".saveButt").on("click", function() {
+  $.ajax({
+    method: "GET",
+    url: ""
+  })
+})
   
   $(document).on("click", "p", function() {
     $(".notes").empty();
