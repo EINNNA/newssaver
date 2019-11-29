@@ -1,7 +1,6 @@
 $.getJSON("/articles", function (data) {
         $(".articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].body 
         + "<br />" + data[i].link + "<button type='button' class='btn btn-primary btn-sm saveButt'>Save Me</button> </p>");
-    }
 });
 
 $(document).ready(function() {
