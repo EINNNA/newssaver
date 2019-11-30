@@ -2,9 +2,10 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var SavedSchema = new Schema({
-    title: String,
-    body: String,
-    link: String
+    article: {
+        type: Schema.Types.ObjectId,
+        ref: "Article"
+    }
 });
 
 var Saved = mongoose.model("Saved", SavedSchema);

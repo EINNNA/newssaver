@@ -1,23 +1,21 @@
 $.getJSON("/articles", function (data) {
-        $(".articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].body 
-        + "<br />" + data[i].link + "<button type='button' class='btn btn-primary btn-sm saveButt'>Save Me</button> </p>");
+  for (i = 0; i < data.length; i++) {
+    $(".articles").append("<p data-id='" + data[i]._id + "'><h4>"
+      + data[i].title + "</h4>"
+      + data[i].body + "<br /><a target='_blank' href='https://www.nationalgeographic.com.au/" + data[i].link
+      + "'><button>See More</button></a><button type='button' class='btn btn-primary btn-sm' id='note'>Add Note</button></p>");
+  }
 });
+//<button type='button' class='btn btn-primary btn-sm' id='saveButt'>Save Me</button>
 
-$(document).ready(function() {
+/*$(document).ready(function() {
   $.ajax({
     method: "DELETE",
     url: "/saved/delete/"
   }).then(function(dbSaved){
     res.json(dbSaved);
   });
-});
-
-$(".saveButt").on("click", function() {
-  $.ajax({
-    method: "GET",
-    url: ""
-  })
-})
+});*/
   
   $(document).on("click", "p", function() {
     $(".notes").empty();
@@ -41,10 +39,11 @@ $(".saveButt").on("click", function() {
       });
   });
   
-  $(document).on("click", "#savenote", function() {
+  $(document).on("click", "#saveButt"/, function() {
     var thisId = $(this).attr("data-id");
   
     $.ajax({
+      
       method: "POST",
       url: "/articles/" + thisId,
       data: {
