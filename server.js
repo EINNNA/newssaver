@@ -18,12 +18,12 @@ mongoose.connect("mongodb://localhost/newssaver", { useNewUrlParser: true });
 app.get("/scrape", function (req, res) {
     axios.get("https://www.nationalgeographic.com.au/news/animals.aspx").then(function (response) {
         var $ = cheerio.load(response.data);
-        $("div.Container").each(function (i, element) {
+        $("div.Padding").each(function (i, element) {
             var result = {};
 
-            result.title = $(this).children("div.Padding").children("a").text();
-            result.body = $(this).children("div.Padding").children("p.Description").text();
-            result.link = $(this).children("div.Padding").children("a").attr("href");
+            result.title = $(this).children("a").text();
+            result.body = $(this).children("div.Description").text();
+            result.link = $(this).children("a").attr("href");
 
             db.Article.create(result)
                 .then(function (dbArticle) {
@@ -45,6 +45,19 @@ app.get("/articles/", function(req, res){
     })
 });
 
+app.get("/notedarticles/:id", function(req, res){
+    db.Article.find({})
+    .populate("notes")
+    .exec(function(err, dbArticle){
+        if (err) {
+            console.log(err);
+        }
+        else {
+        console.log('notes are', dbArticle.note.body)
+        }
+    });
+});
+
 app.get("/articles/:id", function (req, res) {
     db.Article.findOne({ _id: req.params.id })
         .populate("note")
@@ -55,16 +68,26 @@ app.get("/articles/:id", function (req, res) {
         });
 });
 
-app.post("/articles/:id", function (req, res) {
+app.post("/articlenotes/:id", function (req, res) {
     db.Note.create(req.body)
         .then(function (dbNote) {
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+            return db.Article.findOneAndUpdate(
+                { _id: req.params.id }, 
+                { note: dbNote._id }, 
+                { new: true });
         }).then(function (dbArticle) {
             res.json(dbArticle);
         }).catch(function (err) {
             res.json(err);
         });
 });
+
+app.delete("/notes/:id", function(req, res){
+    db.Note.deleteOne({ _id: req.params.id })
+    .then(function(result) {
+        res.json(result);
+    })
+})
 
 /*app.get("/articles/:id", function(req, res){
     db.Article.findOne({ _id: req.params.id })

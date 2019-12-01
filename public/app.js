@@ -3,21 +3,27 @@ $.getJSON("/articles", function (data) {
     $(".articles").append("<p data-id='" + data[i]._id + "'><h4>"
       + data[i].title + "</h4>"
       + data[i].body + "<br /><a target='_blank' href='https://www.nationalgeographic.com.au/" + data[i].link
-      + "'><button>See More</button></a><button type='button' class='btn btn-primary btn-sm' id='note'>Add Note</button></p>");
+      + "'><button>See More</button></a><button type='button' class='btn btn-primary btn-sm' data-id='" 
+      + data[i]._id + "' id='note'>Add Note</button></p>");
   }
 });
-//<button type='button' class='btn btn-primary btn-sm' id='saveButt'>Save Me</button>
+//<button type='button' class='btn btn-primary btn-sm' data-id='" + data[i]._id + "' id='saveButt'>Save Me</button>
 
-/*$(document).ready(function() {
-  $.ajax({
-    method: "DELETE",
-    url: "/saved/delete/"
-  }).then(function(dbSaved){
-    res.json(dbSaved);
-  });
-});*/
+$.getJSON("/articles", function (data) {
+  console.log(data);
+  for (i = 0; i < data.length; i++) {
+    if (data[i].note) {
+      $(".notePage").append("<h4>" + data[i].title + "</h4>" + data[i].body 
+      + "<br /><a target='_blank' href='https://www.nationalgeographic.com.au/" + data[i].link
+      + "'><button>See More</button></a> <br /> <h5>Notes</h5>" + data[i].note
+      + "<br /><button type='button' class='btn btn-primary btn-sm' data-id='"
+      + data[i]._id + "' id='delete'>Delete Note</button></p>");
+    }
+  }
+});
+
   
-  $(document).on("click", "p", function() {
+  $(document).on("click", "#note", function() {
     $(".notes").empty();
     var thisId = $(this).attr("data-id");
   
@@ -39,13 +45,12 @@ $.getJSON("/articles", function (data) {
       });
   });
   
-  $(document).on("click", "#saveButt"/, function() {
+  $(document).on("click", "#savenote", function() {
     var thisId = $(this).attr("data-id");
   
     $.ajax({
-      
       method: "POST",
-      url: "/articles/" + thisId,
+      url: "/articlenotes/" + thisId,
       data: {
         title: $("#titleinput").val(),
         body: $("#bodyinput").val()

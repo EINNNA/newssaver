@@ -7,7 +7,7 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
     <!-- CSS -->
-    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="./style.css">
 
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
     <!-- font-family: 'Titillium Web', sans-serif; -->
@@ -18,16 +18,15 @@
 <body>
     <nav class="navbar navbar-light bg-light">
         <form>
-            <button class="btn btn-sm btn-outline-secondary" type="button" a href="./saved">Saved Articles</button>
-            <button class="btn btn-sm btn-outline-secondary" type="button">Scrape Articles</button>
+            <a href="./saved.html"><button class="btn btn-sm btn-outline-secondary" type="button">Saved Articles</button></a>
+            <a href="./notes.html"><button class="btn btn-sm btn-outline-secondary" type="button">Notes</button></a>
+            <button class="btn btn-sm btn-outline-secondary scrape" type="button">Scrape Articles</button>
         </form>
     </nav>
 
-    <h1>Saved Stuff</h1>
-    <h3></h3>
+    <h1>Saved Articles</h1>
 
     <div class="saved"></div>
-    <div class="notes"></div>
 
     <!-- JAVASCRIPT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
