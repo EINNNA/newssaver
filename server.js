@@ -37,27 +37,18 @@ app.get("/scrape", function (req, res) {
     });
 });
 
+//PULLING PAGE DATA
 app.get("/articles/", function(req, res){
-    db.Article.find({}).then( function(dbArticle){
+    db.Article.find({})
+    .populate("note")
+    .then( function(dbArticle){
         res.json(dbArticle);
     }).catch(function(err){
         res.json(err);
     })
 });
 
-// app.get("/notedarticles/:id", function(req, res){
-//     db.Article.find({})
-//     .populate("notes")
-//     .exec(function(err, dbArticle){
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//         console.log('notes are', dbArticle.note.body)
-//         }
-//     });
-// });
-
+//PUTTING IDS ON THINGS
 app.get("/articles/:id", function (req, res) {
     db.Article.findOne({ _id: req.params.id })
         .populate("note")
@@ -68,12 +59,13 @@ app.get("/articles/:id", function (req, res) {
         });
 });
 
+//ADDING NOTES
 app.post("/articlenotes/:id", function (req, res) {
     db.Note.create(req.body)
         .then(function (dbNote) {
             return db.Article.findOneAndUpdate(
-                { _id: req.params.id }, 
-                { note: dbNote._id }, 
+                { _id: req.params.id },
+                { note: dbNote._id },
                 { new: true });
         }).then(function (dbArticle) {
             res.json(dbArticle);
@@ -82,12 +74,9 @@ app.post("/articlenotes/:id", function (req, res) {
         });
 });
 
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
-  app.delete("/notes/:id", function(req, res){
+
+//DELETING NOTES
+app.delete("/notes/:id", function(req, res){
     db.Note.remove({ _id: req.params.id })
     .then(function(err) {
         throw err;
@@ -95,33 +84,6 @@ app.post("/articlenotes/:id", function (req, res) {
         res.json(dbArticle);
     });
 });
-
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
-/*
-app.get("/saved/", function(req, res){
-    db.Saved.find({}).then( function(dbSaved){
-        res.json(dbSaved);
-    }).catch(function(err){
-        res.json(err);
-    });
-});
-
-app.post("/saved/:id", function(req, res){
-    db.Saved.create({ _id: req.params.id }).then(function(dbSaved) {
-        res.json(dbSaved);
-    });
-});
-
-app.delete("/saved/delete/", function(req, res){
-    db.Saved.remove({}).then(function(dbSaved) {
-        res.json(dbSaved);
-    });
-
-});*/
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
