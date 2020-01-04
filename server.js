@@ -38,14 +38,14 @@ app.get("/scrape", function (req, res) {
 });
 
 //PULLING PAGE DATA
-app.get("/articles/", function(req, res){
+app.get("/articles/", function (req, res) {
     db.Article.find({})
-    .populate("note")
-    .then( function(dbArticle){
-        res.json(dbArticle);
-    }).catch(function(err){
-        res.json(err);
-    })
+        .populate("note")
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        }).catch(function (err) {
+            res.json(err);
+        });
 });
 
 //PUTTING IDS ON THINGS
@@ -74,15 +74,27 @@ app.post("/articlenotes/:id", function (req, res) {
         });
 });
 
+//THIS CHANGES TO TRUE and should be filtered to pick only the "true(saved)" 
+//articles for the saved page", but no time for another page right now
+// app.patch("/articlenotes/:id", function (req, res) {
+//     db.Article.findByIdAndUpdate(
+//         { _id: req.params.id },
+//         { saved: true }
+//     ).then(function (dbArticle) {
+//         res.json(dbArticle);
+//         console.log(dbArticle);
+//     });
+// });
+
 
 //DELETING NOTES
-app.delete("/notes/:id", function(req, res){
+app.delete("/notes/:id", function (req, res) {
     db.Note.remove({ _id: req.params.id })
-    .then(function(err) {
-        throw err;
-    }).catch(function(dbArticle) {
-        res.json(dbArticle);
-    });
+        .then(function (err) {
+            throw err;
+        }).catch(function (dbArticle) {
+            res.json(dbArticle);
+        });
 });
 
 app.listen(PORT, function () {

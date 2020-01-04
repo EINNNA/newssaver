@@ -1,13 +1,47 @@
 body {
+    background-color: #F6DDCC;
+}
 
+h2 {
+    text-align: center;
+}
+
+.savedStuff {
+    padding: 20px;
+    margin: 15px;
+    background-color: #FFFFFF;
+    width: 800px;
+    border-radius: 3px;
+    border: 1px solid #000000;
+}
+
+.scraped {
+    padding: 20px;
+    margin: 15px;
+    background-color: #FFFFFF;
+    width: 800px;
+    border-radius: 3px;
+    border: 1px solid #000000;
+}
+
+.btn {
+    margin: 5px;
+    background-color: #28B463;
+    color: #FFFFFF;
 }
 
 .notes {
     padding: 10px;
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
     border-radius: 3px;
     width: 50%;
     position: fixed; 
     top:50%; 
     left:50%; 
     transform: translate(-50%, -50%);
+}
+
+.hide {
+    display: none;
 }
