@@ -10,19 +10,25 @@ $.getJSON("/articles", function (data) {
   }
 });
 
-// $.getJSON("/articles", function (data) {
-//   for (i = 0; i < data.length; i++) {
-//     if (data[i].note) {
-//       $(".notePage").append("<p data-id='" + data[i]._id + "'><h4>"
-//         + data[i].title + "</h4>"
-//         + data[i].body + "<br /><h2>Note</h2>"
-//         + (data[i].note ? data[i].note.title : '') + "</b>"
-//         + +  (data[i].note ? data[i].note.body : '') + "</p>" < a target = '_blank' href = 'https://www.nationalgeographic.com.au/" + data[i].link
-//         + "'><button>See More</button></a><button type='button' class='btn btn-primary btn-sm' data-id='"
-//         + data[i]._id + "' id='savebutton'>Save Me</button><button type='button' class='btn btn-primary btn-sm' data-id='"
-//         + data[i]._id + "' id='note'>See/Add Note</button></p>");
+// $(document).on("click", ".noteHeader", function () {
+//   var thisId = $(this).attr("data-id");
+//   $.ajax({
+//     method: "GET",
+//     url: "/articles/" + thisId
+//   }).then(function (data) {
+//     for (i = 0; i < data.length; i++) {
+//       if (data[i].note) {
+//         $(".notePage").append("<p data-id='" + data[i]._id + "'><h4>"
+//           + data[i].title + "</h4>"
+//           + data[i].body + "<br /><h2>Note</h2>"
+//           + (data[i].note ? data[i].note.title : '') + "</b>"
+//           + +  (data[i].note ? data[i].note.body : '') + "</p> <a target = '_blank' href = 'https://www.nationalgeographic.com.au/" + data[i].link
+//           + "'><button>See More</button></a><button type='button' class='btn btn-primary btn-sm' data-id='"
+//           + data[i]._id + "' id='savebutton'>Save Me</button><button type='button' class='btn btn-primary btn-sm' data-id='"
+//           + data[i]._id + "' id='note'>See/Add Note</button></p>"
+//      }
 //     }
-//   }
+//   });
 // });
 
 //SAVING AN ARTICLE
@@ -86,7 +92,7 @@ $(document).on("click", "#deletenote", function () {
 });
 
 $(document).on("click", "#closeNote", function () {
-  $(".closeNote").addClass("hide");
+  $(".notes").addClass("hide");
 });
 
 $(document).on("click", "#savenote", function () {

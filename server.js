@@ -48,7 +48,9 @@ app.get("/articles/", function (req, res) {
         });
 });
 
-//PUTTING IDS ON THINGS
+  
+  
+//PUTTING IDS ON THINGS/
 app.get("/articles/:id", function (req, res) {
     db.Article.findOne({ _id: req.params.id })
         .populate("note")
